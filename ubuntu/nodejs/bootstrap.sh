@@ -12,3 +12,4 @@ TMP="/tmp/$(date | md5sum | head -c10)/node_modules"
 
 mkdir -p $DIR $TMP
 sudo mount --bind $TMP $DIR
+echo "Mounted $TMP at $DIR"
