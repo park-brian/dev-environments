@@ -71,6 +71,8 @@ Vagrant.configure("2") do |config|
     curl -sL https://deb.nodesource.com/setup_6.x | bash
     apt-get install -y build-essential nodejs git
     npm install -g npm
-    echo 'IP: 192.168.33.10'
+    echo 'host: 192.168.33.10'
+    echo 'user: vagrant'
+    echo 'pass: vagrant'
   SHELL
 end
