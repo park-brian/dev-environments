@@ -67,12 +67,21 @@ RUN { \
     echo "xdebug.remote_autostart = 1"        ; \
 } | tee "/etc/php.d/xdebug.ini"
 
+RUN { \
+    echo "[sqlsrv]"                           ; \
+    echo "extension=php_pdo_sqlsrv_7_ts.so"   ; \
+} | tee "/etc/php.d/pdo_sqlsrv.ini"
+
 RUN curl https://getcomposer.org/download/1.3.0/composer.phar -o /usr/local/bin/composer \
  && curl https://s3.amazonaws.com/files.drush.org/drush.phar -o /usr/local/bin/drush \
  && chmod 755 /usr/local/bin/composer /usr/local/bin/drush \
  && chown -R apache:apache /var/www/html \
  && chmod 775 /var/www/html
 
+#Install MSSQL Drivers
+RUN curl -sL https://github.com/Microsoft/msphpsql/releases/download/4.0.8-Linux/CentOS7.tar | tar xvf - --strip-components=1 -C /usr/lib64/php/modules/
+
 EXPOSE 80
+EXPOSE 9000
 
 CMD ["/usr/sbin/httpd", "-k", "start", "-DFOREGROUND"]
