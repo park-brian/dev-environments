@@ -23,6 +23,7 @@ RUN yum -y update \
     php71u-mysqlnd \
     php71u-opcache \
     php71u-pdo \
+    php71u-pdo-dblib \
     php71u-pecl-xdebug \
     php71u-pgsql \
     php71u-xml \
@@ -66,19 +67,12 @@ RUN { \
     echo "xdebug.remote_autostart = 1"        ; \
 } | tee "/etc/php.d/xdebug.ini"
 
-# https://www.drupal.org/node/3060/release
-RUN curl https://getcomposer.org/download/1.2.1/composer.phar -o /usr/local/bin/composer \
- && chmod 755 /usr/local/bin/drush /usr/local/bin/composer \
- && chown -R apache:apache /var/www/html
+RUN curl https://getcomposer.org/download/1.3.0/composer.phar -o /usr/local/bin/composer \
+ && curl https://s3.amazonaws.com/files.drush.org/drush.phar -o /usr/local/bin/drush \
+ && chmod 755 /usr/local/bin/composer /usr/local/bin/drush \
+ && chown -R apache:apache /var/www/html \
+ && chmod 775 /var/www/html
 
-RUN  composer create-project \
-    drupal-composer/drupal-project:8.x-dev \
-    /var/www/html \
-    --stability dev \
-    --no-interaction
+EXPOSE 80
 
-ENTRYPOINT ["/usr/sbin/httpd"]
-CMD ["-k", "start", "-DFOREGROUND"]
-
-
-
+CMD ["/usr/sbin/httpd", "-k", "start", "-DFOREGROUND"]
