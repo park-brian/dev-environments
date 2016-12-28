@@ -18,7 +18,7 @@ services:
     ports: 
      - "3307:3306"
     environment: 
-     - MYSQL_ROOT_PASSWORD=temporary_password
+     - MYSQL_ROOT_PASSWORD=temp-password
     volumes: 
      - ./mysql:/var/lib/mysql
 
