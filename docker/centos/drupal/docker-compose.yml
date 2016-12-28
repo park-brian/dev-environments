@@ -1,0 +1,18 @@
+version '2'
+services:
+  drupal-dev:
+  	build: .
+  	depends_on:
+  	 - db
+  	links:
+  	 - db
+  	ports:
+  	 - "8000:80"
+  	volumes:
+  	 - drupal:/var/www/html
+
+  db:
+  	image: "mysql:latest"
+	expose: 
+	 - "3306"
+
