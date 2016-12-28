@@ -1,1 +1,3 @@
 .vagrant/
+docker/centos/drupal/drupal
+docker/centos/drupal/mysql
